@@ -11,7 +11,7 @@ This repository contains the automation workflow for an intelligent Chatbot embe
 ## 📸 Workflow Visualization
 
 > **"The Brain" of the system:**
-> ![Workflow Diagram](./workflow-diagram.png)
+> ![Workflow Diagram]([/workflow-diagram.png](https://github.com/BogdanMLH/ai-job-market-agent/blob/main/main-workflow.json))
 *(Note: This is the actual logic that drives the conversation)*
 
 ---
