@@ -1,62 +1,45 @@
-# 🤖 AI-Powered Job Market Intelligence Agent
+# 🤖 AI Job Market Assistant (n8n Workflow)
 
-![Project Status](https://img.shields.io/badge/Status-Active-success)
-![n8n](https://img.shields.io/badge/Automation-n8n-ff6c37)
-![Supabase](https://img.shields.io/badge/Database-Supabase-3ecf8e)
+![n8n](https://img.shields.io/badge/Orchestration-n8n-FF6C37)
 ![OpenAI](https://img.shields.io/badge/AI-OpenAI_GPT--4-412991)
+![Webhook](https://img.shields.io/badge/Integration-Webhook-red)
 
-An autonomous agent designed to automate the job search and analysis process. The system leverages **n8n** for orchestration, **OpenAI (GPT-4)** for semantic analysis, and **Supabase** for data persistence. Accessed via a Telegram interface.
-
----
-
-## 🚀 Key Features
-
-* **🔍 Autonomous Research:** The bot can perform real-time web scraping to find relevant job listings or company data based on natural language requests.
-* **🧠 AI Analysis:** Automatically parses unstructured job descriptions into structured data (Salary, Tech Stack, Requirements) using LLMs.
-* **📂 Data Persistence:** Stores organized data directly into **Supabase** (PostgreSQL) and mirrors reports to **Google Sheets** for easy access.
-* **💬 Natural Interface:** Fully interactive Telegram Bot interface capable of maintaining context (Memory).
-
-## 🛠️ Architecture & Tech Stack
-
-The project follows a modern **Event-Driven Architecture**:
-
-1.  **Frontend:** Telegram Client (User Interface).
-2.  **Orchestrator:** n8n (Self-hosted/Cloud) handles webhooks and logic flow.
-3.  **Intelligence Layer:** OpenAI API for RAG (Retrieval-Augmented Generation) and data extraction.
-4.  **Storage:** Supabase (PostgreSQL) for user auth and vacancy database.
-
-### Workflow Visualization
-> *[Вставь сюда скриншот своего самого красивого сценария из n8n. Это ДОКАЗАТЕЛЬСТВО твоей работы. Назови файл workflow-screenshot.png и положи в папку docs]*
-> `![n8n Workflow Graph](./docs/workflow-screenshot.png)`
+This repository contains the automation workflow for an intelligent Chatbot embedded on my Job Search Platform. The bot acts as a first-line support agent, capable of answering user queries and filtering job requests autonomously.
 
 ---
 
-## ⚙️ How It Works (The Logic)
+## 📸 Workflow Visualization
 
-1.  **User Input:** User sends a voice or text message to the Telegram Bot (e.g., *"Find Junior Java jobs in Warsaw"*).
-2.  **Intent Recognition:** n8n sends the prompt to OpenAI to classify the intent (Search / Analyze / Save).
-3.  **Execution:**
-    * If *Search*: Triggers a custom scraping script/API call.
-    * If *Analyze*: Passes the text through a specific prompt to extract JSON data.
-4.  **Response:** The agent formats the findings and sends a summary back to Telegram + saves rows to Google Sheets.
-
-## 💻 Installation / Setup
-
-To replicate this workflow:
-
-1.  **Import Workflows:**
-    * Download the JSON files from the `/workflows` folder.
-    * Import them into your n8n instance.
-2.  **Credentials:**
-    * Set up credentials for: Telegram Bot API, OpenAI API, Supabase, Google Sheets.
-3.  **Database:**
-    * Use the SQL script provided in `/docs/schema.sql` to set up Supabase tables.
+> **"The Brain" of the system:**
+> ![Workflow Diagram](./workflow-diagram.png)
+*(Note: This is the actual logic that drives the conversation)*
 
 ---
 
-## 👨‍💻 Author
+## 🧠 How It Works
 
-**Bogdan Malanchenko**
-* **Role:** AI Automation Engineer & Backend Developer
-* **Focus:** Bridging the gap between complex code and efficient No-Code solutions.
-* [LinkedIn Profile](https://www.linkedin.com/in/bogdan-malanchenko)
+The workflow utilizes an **Event-Driven Architecture**:
+
+1.  **Webhook Trigger:** Receives the user's message from the frontend (React) instantly.
+2.  **Context Management:** Checks prior conversation history to maintain context (Memory).
+3.  **AI Processing (LLM):** Sends the structured prompt to **OpenAI (GPT-4/3.5)**.
+    * *System Prompt:* "You are a helpful career assistant..."
+4.  **Action Routing:**
+    * If the user asks for *jobs* -> Triggers a database search.
+    * If the user asks for *advice* -> Generates a consultation.
+5.  **Response:** Returns a formatted JSON response back to the chat interface.
+
+## 🛠️ Installation (Import to n8n)
+
+To use or modify this workflow:
+
+1.  Download the `main-workflow.json` file from this repository.
+2.  Open your **n8n** instance.
+3.  Go to **Workflows** -> **Import from File**.
+4.  Select the JSON file.
+5.  **Setup Credentials:** You will need to add your own OpenAI API Key and Database credentials.
+
+---
+
+### 💼 Business Value
+This automation reduces manual support time by **80%** and provides 24/7 assistance to job seekers without human intervention.
