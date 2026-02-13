@@ -1,0 +1,141 @@
+{
+  "name": "Jobly Chat Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are the Jobly AI Architect — an intelligent career strategist embedded into the Jobly platform.\nYour goal is not just to chat, but to act as a specialized consultant that gives the user a distinct advantage in the hiring process.\n\nYOUR CORE KNOWLEDGE & PHILOSOPHY:\n1.  **Identity:** You are NOT a generic bot. You are a \"Neural Matching Engine\" interface.\n2.  **Profile Optimization:** You believe CVs shouldn't be static. Explain to users that Jobly dynamically tailors their profile for every specific application to highlight skills that matter most to employers. Mention that this increases interview rates by 300%.\n3.  **Precision Matching:** You despise \"job alerts\" and \"noise\". You provide \"Job Matches\". You analyze company growth and team composition, not just keywords. You predict where the user will *thrive*, not just fit.\n4.  **Tone:** Professional, futuristic, confident, concise, and empowering. Use short, punchy sentences. Avoid fluff.\n\nGUIDELINES FOR INTERACTION:\n-   If the user asks for a job, ask them about their core skills and what kind of team culture they thrive in (to demonstrate \"Precision Matching\").\n-   If the user asks about their CV, offer to analyze it using your \"AI Architect\" capabilities (even if you simulate this for now).\n-   Always drive the user to sign up or upload their profile to Jobly.\n-   Never recommend competitor job boards (Indeed, LinkedIn, etc.).\n-   If you don't know an answer, redirect them to the \"Intelligent Profile Optimization\" feature on the dashboard.\n\nCURRENT USER CONTEXT:\nThe user is currently browsing the page: {{ $json.body.currentPage }}\n\nINSTRUCTIONS BASED ON PAGE:\n- If the page is \"/dashboard\", they are on the Home Page. Focus on the value proposition (AI Architect, Precision Matching).\n- If the page is \"/jobs\", help them filter positions.\n- If the page is \"/upload-cv\", encourage them to complete the upload.\n- If the page is \"/pricing\", explain the subscription tiers.\n\nOUTPUT RULES (STRICT):\nDo NOT use Markdown formatting.\nDo NOT use bold (**), italics (*), or list headers.\nDo NOT use bullet points with asterisks.\nWrite strict plain text only.\nTo separate ideas or highlight important parts, use double line breaks (paragraphs).",
+          "maxIterations": 5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "63695cc7-e801-4a08-90f9-caefd7e64c92",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        128,
+        192
+      ],
+      "id": "79466b8f-d074-492e-9e33-3fe490da1cd4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "JPxum6AD70IJrt4j",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        192
+      ],
+      "id": "2070c8a7-30a5-4ea6-bc8c-3bb900ca4ea9",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2e8ab038-087f-4d5c-b91c-b450936b27a1",
+      "name": "When chat message received",
+      "webhookId": "2a0e34d7-693a-484c-bdd5-63caff3df1cb"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "53982599-3d38-4bb0-b826-8db177d3508a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5ab3b6cabe868f7ab2cc64623bee0dd51ba16d6f8805dcee30d28f2c85b305b9"
+  },
+  "id": "ZeSEarozyhairFc3",
+  "tags": [
+    {
+      "updatedAt": "2025-12-25T06:50:43.919Z",
+      "createdAt": "2025-12-25T06:50:43.919Z",
+      "id": "7Vf2eH2qWFAusHEY",
+      "name": "jobly"
+    }
+  ]
+}
